@@ -1,0 +1,10 @@
+/*.*
+*.json
+node_modules
+!/.editorconfig
+!/.gitignore
+!/README.md
+!/witch.webp
+!/package.json
+!/tsconfig.json
+!/src/stores/cities.json
