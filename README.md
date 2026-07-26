@@ -21,6 +21,8 @@ corepack pnpm i
 corepack pnpm start
 ```
 
+[![asciicast](https://asciinema.org/a/FMh1E6MYqe2K49y4.svg)](https://asciinema.org/a/FMh1E6MYqe2K49y4)
+
 Made with \[expletive] by \[redacted]. Licensed under MIT.
 
 The file [cities.json](src/stores/cities.json) is borrowed from [this gist by @alirezanet](https://gist.github.com/alirezanet/0bbfb2921e421f8acb46244e0b5a8f8a). Many thanks :3
