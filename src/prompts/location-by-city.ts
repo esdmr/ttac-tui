@@ -1,7 +1,7 @@
 import { autocomplete, isCancel } from "@clack/prompts";
 import { dmsStringToDecimal } from "../formatting/coordinate.ts";
 import { getCities } from "../stores/cities.ts";
-import type { LocationToSave } from './location-save.ts';
+import type { LocationToSave } from "./location-save.ts";
 
 export async function promptForLocationByCity(): Promise<LocationToSave> {
   const cities = getCities();
@@ -21,6 +21,6 @@ export async function promptForLocationByCity(): Promise<LocationToSave> {
   return {
     name: selectedCity.city + " - " + selectedCity.province,
     lat: dmsStringToDecimal(selectedCity.latitude),
-    lng: dmsStringToDecimal(selectedCity.latitude),
+    lng: dmsStringToDecimal(selectedCity.longitude),
   };
 }
