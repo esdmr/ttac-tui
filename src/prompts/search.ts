@@ -1,4 +1,5 @@
 import { isCancel, log, multiselect } from "@clack/prompts";
+import { UnreachableError } from "../error.ts";
 import { formatDrugPharmacyBatchName } from "../formatting/drug-pharmacy.ts";
 import {
   fetchTtacDrugPharmacies,
@@ -52,12 +53,19 @@ export async function promptToSearch(index: number) {
       continue;
     }
 
-    const { lat, lng } = await promptForLocation();
+    const loc = await promptForLocation();
+    if (!loc) continue;
 
     const drugPharmacies: TtacDrugPharmacy[] = [];
 
     for (const i of selectedDrugs) {
-      if (typeof i !== "object") throw new TypeError("Unreachable");
+      if (typeof i !== "object") {
+        throw new UnreachableError(
+          `گزینه‌ غیر‌دارو‌ای در منو انتخاب شده ولی روی آن پردازش جدا انجام نشده: ${JSON.stringify(
+            i,
+          )}`,
+        );
+      }
 
       const items = await spin(`درحال بارگذاری ${i.faBrandName}`, async () =>
         fetchTtacDrugPharmacies({
@@ -67,8 +75,8 @@ export async function promptToSearch(index: number) {
           pageSize: 50,
           strict: true,
           searchMode: SEARCH_MODES.ORDER_BY_DISTANCE.value,
-          latitude: lat,
-          longitude: lng,
+          latitude: loc.lat,
+          longitude: loc.lng,
         }),
       );
 

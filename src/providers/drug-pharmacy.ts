@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import { RateLimitError } from "../error.ts";
 import { readonlyObject } from "../schema.ts";
 
 /** @see {@link https://mobile.ttac.ir/static/js/model/DrugShortagePharmacyInventoryListSearchMode.js DrugShortagePharmacyInventoryListSearchMode} */
@@ -111,7 +112,7 @@ export async function fetchTtacDrugPharmacies(
   );
 
   if (response.status === 429) {
-    throw new Error("سقف درخواست برای امروز به اتمام رسیده است");
+    throw new RateLimitError(response);
   }
 
   const json = v.parse(

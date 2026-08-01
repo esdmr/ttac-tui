@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import { RateLimitError } from "../error.ts";
 import { readonlyArray, readonlyObject } from "../schema.ts";
 import { TtacDrug } from "./drug-pharmacy.ts";
 
@@ -87,7 +88,7 @@ export async function fetchTtacDrug(options: TtacDrugsOptions) {
   );
 
   if (response.status === 429) {
-    throw new Error("سقف درخواست برای امروز به اتمام رسیده است");
+    throw new RateLimitError(response);
   }
 
   const json = v.parse(TtacDrugsResponse, await response.json());
