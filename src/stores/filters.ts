@@ -5,7 +5,7 @@ export interface Filter {
   readonly days?: number;
 }
 
-const filters: Filter[] = await readJson(
+let filters: Filter[] = await readJson(
   new URL("./filters.json", import.meta.url),
   [],
 );
@@ -16,5 +16,10 @@ export function getFilters(): readonly Filter[] {
 
 export async function appendFilters(newFilters: readonly Filter[]) {
   filters.push(...newFilters);
+  await writeJson(new URL("./filters.json", import.meta.url), filters);
+}
+
+export async function removeFilters(filtersToRemove: readonly Filter[]) {
+  filters = filters.filter((i) => !filtersToRemove.includes(i));
   await writeJson(new URL("./filters.json", import.meta.url), filters);
 }

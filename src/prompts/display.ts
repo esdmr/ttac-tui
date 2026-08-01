@@ -1,7 +1,7 @@
 import { isCancel, select } from "@clack/prompts";
 import clipboard from "clipboardy";
 import pager from "node-pager";
-import { formatAllDrugsSection, formatDrug } from "../formatting/drug.ts";
+import { formatAllDrugsSectionHeading, formatDrugSectionHeading } from "../formatting/drug.ts";
 import { formatPharmacy } from "../formatting/pharmacy.ts";
 import type {
   TtacDrug,
@@ -34,7 +34,7 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
   }
 
   for (const i of drugs.values()) {
-    parts.push(formatDrug(i));
+    parts.push(formatDrugSectionHeading(i));
 
     const sorted = results
       .filter((j) => j.irc !== i.irc)
@@ -50,7 +50,7 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
   }
 
   if (completePharmacies.size > 0) {
-    parts.push(formatAllDrugsSection());
+    parts.push(formatAllDrugsSectionHeading());
 
     for (const i of completePharmacies) {
       const { pharmacy, durations } = pharmacies.get(i)!;
