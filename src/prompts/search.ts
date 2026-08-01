@@ -59,7 +59,7 @@ export async function promptToSearch(index: number) {
     await setResult(fileName, items);
 
     log.message(
-      `Written ${items[0].faBrandName} results to ${formatResultsFilename(fileName)}.`,
+      `نتیجه ${items[0].faBrandName} به ${formatResultsFilename(fileName)} نوشته شد.`,
     );
 
     index++;
