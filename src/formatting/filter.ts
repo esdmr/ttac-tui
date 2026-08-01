@@ -7,3 +7,7 @@ export function formatFilter(filter: Filter) {
   if (filter.days) parts.push(`حداکثر ${filter.days} روز پیش`);
   return list.format(parts) || "همه";
 }
+
+export function isFilterEmpty(filter: Filter) {
+  return !filter.city && !filter.days;
+}
