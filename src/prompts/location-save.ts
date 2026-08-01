@@ -1,5 +1,5 @@
 import { confirm, isCancel, text } from "@clack/prompts";
-import { appendLocations } from "../stores/locations.ts";
+import { appendLocations, type Location } from "../stores/locations.ts";
 
 export interface LocationToSave {
   readonly name: string | undefined;
@@ -20,9 +20,9 @@ export async function promptToSaveLocation(loc: LocationToSave) {
       }));
 
     if (!isCancel(selectedName)) {
-      loc = { ...loc, name: selectedName };
-
-      appendLocations([loc]);
+      const locWithName: Location = { ...loc, name: selectedName };
+      loc = locWithName;
+      await appendLocations([locWithName]);
     }
   }
 
