@@ -4,14 +4,14 @@ import { getCities } from "../stores/cities.ts";
 import type { LocationToSave } from "./location-save.ts";
 
 export async function promptForLocationByCity(): Promise<LocationToSave> {
-  const cities = getCities();
-
   const selectedCity = await autocomplete({
     message: "شهر را انتخاب کنید",
-    options: cities.map((i) => ({
-      value: i,
-      label: `${i.city} - ${i.province}`,
-    })),
+    options: getCities()
+      .map((i) => ({
+        value: i,
+        label: `${i.city} - ${i.province}`,
+      }))
+      .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });
 
   if (isCancel(selectedCity)) {

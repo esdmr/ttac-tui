@@ -14,7 +14,7 @@ export const SEARCH_MODES = {
 /** Seriously? :p */
 const FAKE_CLIENT_IP = "000.000.000.000";
 
-export const TtacOptions = readonlyObject({
+export const TtacDrugPharmaciesOptions = readonlyObject({
   pageNumber: v.number(),
   pageSize: v.number(),
   longitude: v.number(),
@@ -26,7 +26,9 @@ export const TtacOptions = readonlyObject({
   searchMode: v.number(),
 });
 
-export type TtacOptions = v.InferOutput<typeof TtacOptions>;
+export type TtacDrugPharmaciesOptions = v.InferOutput<
+  typeof TtacDrugPharmaciesOptions
+>;
 
 export const TtacPharmacy = readonlyObject({
   id: v.number(),
@@ -74,8 +76,10 @@ export const TtacDrugPharmacy = v.intersect([
 
 export type TtacDrugPharmacy = v.InferOutput<typeof TtacDrugPharmacy>;
 
-export async function callTtac(options: TtacOptions) {
-  const request = await fetch(
+export async function fetchTtacDrugPharmacies(
+  options: TtacDrugPharmaciesOptions,
+) {
+  const response = await fetch(
     `https://newapi.ttac.ir/irfdamobile/v1/getrecentlysolddrugpharmacy?${new URLSearchParams(
       {
         PageNumber: `${options.pageNumber}`,
@@ -106,11 +110,15 @@ export async function callTtac(options: TtacOptions) {
     },
   );
 
+  if (response.status === 429) {
+    throw new Error("سقف درخواست برای امروز به اتمام رسیده است");
+  }
+
   const json = v.parse(
     v.object({
       results: v.array(TtacDrugPharmacy),
     }),
-    await request.json(),
+    await response.json(),
   );
 
   return json.results;

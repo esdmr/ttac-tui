@@ -7,23 +7,23 @@ export async function promptToSaveDrugs(
 ) {
   const oldDrugs = getDrugs();
 
-  const newDrugs = [...new Map(drugPharmacies.map((i) => [i.irc, i])).values()]
-    .filter(
-      (i) =>
-        !oldDrugs.some(
-          (j) => j.irc === i.irc && j.drugIndexId === i.drugIndexId,
-        ),
-    )
-    .toSorted((a, b) => a.faBrandName.localeCompare(b.faBrandName));
+  const newDrugs = [
+    ...new Map(drugPharmacies.map((i) => [i.irc, i])).values(),
+  ].filter(
+    (i) =>
+      !oldDrugs.some((j) => j.irc === i.irc && j.drugIndexId === i.drugIndexId),
+  );
 
   const selectedDrugsToSave =
     newDrugs.length > 0
       ? await multiselect({
           message: "دارو‌های جدید را برای ذخیره انتخاب کنید",
-          options: newDrugs.map((i) => ({
-            value: i,
-            label: i.faBrandName,
-          })),
+          options: newDrugs
+            .map((i) => ({
+              value: i,
+              label: i.faBrandName,
+            }))
+            .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
           required: false,
         })
       : [];

@@ -10,10 +10,12 @@ export async function promptForLocation(): Promise<LocationToSave> {
   const selectedLocation = await select<Location | "by-city" | "manual">({
     message: "انتخاب موقعیت",
     options: [
-      ...locations.map((i) => ({
-        value: i,
-        label: i.name,
-      })),
+      ...locations
+        .map((i) => ({
+          value: i,
+          label: i.name,
+        }))
+        .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
       {
         value: "by-city",
         label: "جستجوی شهر",

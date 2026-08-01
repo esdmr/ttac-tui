@@ -32,11 +32,13 @@ export async function promptToFilter(
     >({
       message: `فیلتر - ${formatFilter(filter)} - ${matchCount}`,
       options: [
-        ...getFilters().map((i) => ({
-          value: i,
-          label: formatFilter(i),
-          disabled: i === filter,
-        })),
+        ...getFilters()
+          .map((i) => ({
+            value: i,
+            label: formatFilter(i),
+            disabled: i === filter,
+          }))
+          .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
         { value: "by-city", label: "طبق شهر" },
         { value: "by-days", label: "طبق زمان" },
         { value: "done", label: "اعمال" },
