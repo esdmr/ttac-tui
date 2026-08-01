@@ -48,7 +48,7 @@ export async function mainPrompt() {
     const drugNames = new Set(results.map((i) => i.faBrandName));
 
     log.info(
-      `دارو‌های موجود: ${list.format([...drugNames].sort((a, b) => a.localeCompare(b, "fa")))}`,
+      `دارو‌های موجود: ${list.format([...drugNames].toSorted((a, b) => a.localeCompare(b, "fa")))}`,
     );
 
     await promptToSaveDrugs(results);

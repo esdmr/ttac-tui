@@ -6,10 +6,12 @@ export async function promptToFilterByDays(
   const days = await text({
     message: "حداکثر چند روز",
     validate(value) {
-      if (!value) return;
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
+      if (!value) return undefined;
       const parsed = Number.parseInt(value, 10);
       if (!Number.isFinite(parsed)) return "لطفا یک عدد صحیح وارد کنید";
       if (parsed < 1) return "لطفا یک عدد صحیح وارد کنید";
+      return undefined;
     },
   });
 

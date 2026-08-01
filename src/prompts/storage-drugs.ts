@@ -16,7 +16,7 @@ export async function promptToManageDrugsStorage() {
         value: i,
         label: formatDrugLabel(i),
       }))
-      .sort((a, b) => a.label.localeCompare(b.label, "fa")),
+      .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });
 
   if (isCancel(items) || items.length === 0) return;

@@ -1,12 +1,17 @@
+import * as v from "valibot";
 import { readJson, writeJson } from "../json.ts";
+import { readonlyObject } from "../schema.ts";
 
-export interface Filter {
-  readonly city?: string;
-  readonly days?: number;
-}
+export const Filter = readonlyObject({
+  city: v.optional(v.string()),
+  days: v.optional(v.number()),
+});
 
-let filters: Filter[] = await readJson(
-  new URL("./filters.json", import.meta.url),
+export type Filter = v.InferOutput<typeof Filter>;
+
+let filters = await readJson(
+  new URL("filters.json", import.meta.url),
+  v.array(Filter),
   [],
 );
 
@@ -16,10 +21,10 @@ export function getFilters(): readonly Filter[] {
 
 export async function appendFilters(newFilters: readonly Filter[]) {
   filters.push(...newFilters);
-  await writeJson(new URL("./filters.json", import.meta.url), filters);
+  await writeJson(new URL("filters.json", import.meta.url), filters);
 }
 
 export async function removeFilters(filtersToRemove: readonly Filter[]) {
   filters = filters.filter((i) => !filtersToRemove.includes(i));
-  await writeJson(new URL("./filters.json", import.meta.url), filters);
+  await writeJson(new URL("filters.json", import.meta.url), filters);
 }

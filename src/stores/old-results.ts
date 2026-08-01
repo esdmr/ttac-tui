@@ -1,6 +1,7 @@
 import { glob, rm } from "fs/promises";
 import { readJson, writeJson } from "../json.ts";
-import type { TtacResult } from "../providers/drug-pharmacy.ts";
+import { TtacResult } from "../providers/drug-pharmacy.ts";
+import { readonlyArray } from "../schema.ts";
 
 let oldResultNames = await Array.fromAsync(glob("/tmp/ttac.*.json"));
 const oldResults = new Map<string, readonly TtacResult[]>();
@@ -14,7 +15,7 @@ export async function getOldResult(
 ): Promise<readonly TtacResult[]> {
   if (!oldResultNames.includes(name)) return [];
   if (oldResults.has(name)) return oldResults.get(name)!;
-  const result: readonly TtacResult[] = await readJson(name);
+  const result = await readJson(name, readonlyArray(TtacResult));
   oldResults.set(name, result);
   return result;
 }

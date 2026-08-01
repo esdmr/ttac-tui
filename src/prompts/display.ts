@@ -1,7 +1,10 @@
 import { isCancel, select } from "@clack/prompts";
 import clipboard from "clipboardy";
 import pager from "node-pager";
-import { formatAllDrugsSectionHeading, formatDrugSectionHeading } from "../formatting/drug.ts";
+import {
+  formatAllDrugsSectionHeading,
+  formatDrugSectionHeading,
+} from "../formatting/drug.ts";
 import { formatPharmacy } from "../formatting/pharmacy.ts";
 import type {
   TtacDrug,
@@ -19,7 +22,8 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
 
   for (const i of results) {
     drugs.set(i.irc, i);
-    const durations = pharmacies.get(i.pharmacy.id)?.durations ?? new Map();
+    const durations =
+      pharmacies.get(i.pharmacy.id)?.durations ?? new Map<string, number>();
     durations.set(
       i.irc,
       Math.min(durations.get(i.irc) ?? Infinity, i.secondsFromLastSellDate),
@@ -38,7 +42,7 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
 
     const sorted = results
       .filter((j) => j.irc !== i.irc)
-      .sort(
+      .toSorted(
         (a, b) =>
           a.secondsFromLastSellDate - b.secondsFromLastSellDate ||
           a.pharmacy.id - b.pharmacy.id,

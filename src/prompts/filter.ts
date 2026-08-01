@@ -8,7 +8,9 @@ import { promptToFilterByDays } from "./filter-by-days.ts";
 
 function match(i: TtacResult, filter: Filter): boolean {
   return (
+    // oxlint-disable-next-line typescript/strict-boolean-expressions
     (!filter.city || i.pharmacy.city === filter.city) &&
+    // oxlint-disable-next-line typescript/strict-boolean-expressions
     (!filter.days || i.secondsFromLastSellDate < SECONDS_PER_DAY * filter.days)
   );
 }
@@ -26,7 +28,7 @@ export async function promptToFilter(results: readonly TtacResult[]) {
     const action = await select<
       Filter | `by-${keyof Filter}` | "done" | "clear" | "save"
     >({
-      message: "فیلتر - " + formatFilter(filter) + " - " + matchCount,
+      message: `فیلتر - ${formatFilter(filter)} - ${matchCount}`,
       options: [
         ...getFilters().map((i) => ({
           value: i,
@@ -52,30 +54,37 @@ export async function promptToFilter(results: readonly TtacResult[]) {
     if (isCancel(action)) return [];
 
     switch (action) {
-      case "save":
+      case "save": {
         await appendFilters([filter]);
-      // Fallthrough.
+        // Fallthrough.
+      }
 
-      case "done":
+      // oxlint-disable-next-line no-fallthrough
+      case "done": {
         return results.filter((i) => match(i, filter));
+      }
 
-      case "clear":
+      case "clear": {
         filter = {};
         break;
+      }
 
-      case "by-city":
+      case "by-city": {
         filter = {
           ...filter,
           city: await promptToFilterByCity(results, filter.city),
         };
         break;
+      }
 
-      case "by-days":
+      case "by-days": {
         filter = { ...filter, days: await promptToFilterByDays(filter.days) };
         break;
+      }
 
-      default:
+      default: {
         filter = action;
+      }
     }
   }
 }

@@ -10,7 +10,7 @@ export async function promptForLocationByCity(): Promise<LocationToSave> {
     message: "شهر را انتخاب کنید",
     options: cities.map((i) => ({
       value: i,
-      label: i.city + " - " + i.province,
+      label: `${i.city} - ${i.province}`,
     })),
   });
 
@@ -19,7 +19,7 @@ export async function promptForLocationByCity(): Promise<LocationToSave> {
   }
 
   return {
-    name: selectedCity.city + " - " + selectedCity.province,
+    name: `${selectedCity.city} - ${selectedCity.province}`,
     lat: dmsStringToDecimal(selectedCity.latitude),
     lng: dmsStringToDecimal(selectedCity.longitude),
   };

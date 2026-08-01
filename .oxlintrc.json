@@ -1,0 +1,89 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc",
+    "node",
+    "promise",
+    "import",
+    "vitest"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "pedantic": "warn",
+    "perf": "warn",
+    "style": "warn"
+  },
+  "rules": {
+    "no-shadow": "allow",
+    "no-underscore-dangle": "allow",
+    "no-map-spread": "allow",
+    "max-lines-per-function": "allow",
+    "require-await": "allow",
+    "max-classes-per-file": "allow",
+    "typescript/require-await": "allow",
+    "typescript/prefer-readonly-parameter-types": "allow",
+    "typescript/ban-types": "allow",
+    "unicorn/no-new-array": "allow",
+    "unicorn/no-useless-undefined": "allow",
+    "import/max-dependencies": "allow",
+    "sort-keys": "allow",
+    "unicorn/no-null": "allow",
+    "import/no-named-export": "allow",
+    "unicorn/filename-case": "allow",
+    "import/exports-last": "allow",
+    "import/group-exports": "allow",
+    "import/prefer-default-export": "allow",
+    "no-ternary": "allow",
+    "no-continue": "allow",
+    "func-style": "allow",
+    "no-implicit-coercion": "allow",
+    "max-statements": "allow",
+    "id-length": "allow",
+    "no-magic-numbers": "allow",
+    "curly": "allow",
+    "no-nested-ternary": "allow",
+    "sort-imports": "allow",
+    "no-loop-func": "allow",
+    "no-await-in-loop": "allow",
+    "unicorn/no-nested-ternary": "allow",
+    "import/consistent-type-specifier-style": "allow",
+    "import/no-namespace": "allow",
+    "import/no-nodejs-modules": "allow",
+    "vitest/no-conditional-expect": "allow",
+    "jest/no-conditional-expect": "allow",
+    "vitest/no-conditional-in-test": "allow",
+    "jest/no-conditional-in-test": "allow",
+    "vitest/no-importing-vitest-globals": "allow",
+    "vitest/no-hooks": "allow",
+    "jest/no-hooks": "allow",
+    "jest/require-hook": "allow",
+    "vitest/prefer-expect-assertions": "allow",
+    "jest/prefer-expect-assertions": "allow"
+  },
+  "env": {
+    "builtin": true
+  },
+  "options": {
+    "typeCheck": true,
+    "typeAware": true,
+    "respectEslintDisableDirectives": true,
+    "reportUnusedDisableDirectives": "warn"
+  },
+  "settings": {
+    "vitest": {
+      "typecheck": true
+    }
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.test.ts"],
+      "rules": {
+        "unbound-method": "allow",
+        "func-names": "allow"
+      }
+    }
+  ]
+}

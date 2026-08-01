@@ -4,6 +4,7 @@
     "module": "nodenext",
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "strict": true
-  },
+    "strict": true,
+    "types": ["node", "valibot"]
+  }
 }

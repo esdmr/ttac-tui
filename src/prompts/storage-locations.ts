@@ -13,9 +13,9 @@ export async function promptToManageLocationsStorage() {
     options: getLocations()
       .map((i) => ({
         value: i,
-        label: i.name + " (" + i.lat + "° " + i.lng + "°)",
+        label: `${i.name} (${i.lat}° ${i.lng}°)`,
       }))
-      .sort((a, b) => a.label.localeCompare(b.label, "fa")),
+      .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });
 
   if (isCancel(items) || items.length === 0) return;

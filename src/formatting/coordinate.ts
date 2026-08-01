@@ -1,9 +1,7 @@
-
-export function dmsStringToDecimal (dmsStr) {
-  const m = dmsStr
-    .trim()
-    .match(
-      /^([+-]?\d+(?:\.\d+)?)\s*°\s*([+-]?\d+(?:\.\d+)?)\s*'\s*([+-]?\d+(?:\.\d+)?)\s*"?$/
+export function dmsStringToDecimal(dmsStr: string) {
+  const m =
+    /^\s*([+-]?\d+(?:\.\d+)?)\s*°\s*([+-]?\d+(?:\.\d+)?)\s*'\s*([+-]?\d+(?:\.\d+)?)\s*"?\s*$/.exec(
+      dmsStr,
     );
 
   if (!m) throw new Error(`Invalid DMS string: ${dmsStr}`);

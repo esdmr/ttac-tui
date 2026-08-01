@@ -36,24 +36,29 @@ export async function promptToManageStorage() {
     if (isCancel(kind)) return;
 
     switch (kind) {
-      case "drugs":
+      case "drugs": {
         await promptToManageDrugsStorage();
         break;
+      }
 
-      case "filters":
+      case "filters": {
         await promptToManageFiltersStorage();
         break;
+      }
 
-      case "locations":
+      case "locations": {
         await promptToManageLocationsStorage();
         break;
+      }
 
-      case "old-results":
+      case "old-results": {
         await promptToManageOldResultsStorage();
         break;
+      }
 
-      case "back":
+      case "back": {
         return;
+      }
     }
   }
 }

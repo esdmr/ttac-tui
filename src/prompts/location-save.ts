@@ -14,7 +14,7 @@ export async function promptToSaveLocation(loc: LocationToSave) {
 
   if (shouldSave === true) {
     const selectedName =
-      loc.name ||
+      loc.name ??
       (await text({
         message: "اسمی برای این موقعیت انتخاب کنید",
       }));

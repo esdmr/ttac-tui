@@ -12,7 +12,7 @@ export async function promptToSaveDrugs(results: readonly TtacResult[]) {
           (j) => j.irc === i.irc && j.drugIndexId === i.drugIndexId,
         ),
     )
-    .sort((a, b) => a.faBrandName.localeCompare(b.faBrandName));
+    .toSorted((a, b) => a.faBrandName.localeCompare(b.faBrandName));
 
   const selectedDrugsToSave =
     newDrugs.length > 0

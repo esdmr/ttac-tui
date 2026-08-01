@@ -1,6 +1,5 @@
 import { isCancel, multiselect } from "@clack/prompts";
 import { formatResultsFilename } from "../formatting/filename.ts";
-import type { TtacResult } from "../providers/drug-pharmacy.ts";
 import { getOldResult } from "../stores/old-results.ts";
 
 export async function promptToLoad(files: readonly string[]) {
@@ -11,7 +10,7 @@ export async function promptToLoad(files: readonly string[]) {
         value: i,
         label: formatResultsFilename(i),
       }))
-      .sort(
+      .toSorted(
         (a, b) =>
           +a.label.split(".", 1)[0] - +b.label.split(".", 1)[0] ||
           a.label.localeCompare(b.label, "fa"),
@@ -28,5 +27,5 @@ export async function promptToLoad(files: readonly string[]) {
     results.push(...(await getOldResult(i)));
   }
 
-  return results as TtacResult[];
+  return results;
 }

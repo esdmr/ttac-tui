@@ -1,15 +1,20 @@
+import * as v from "valibot";
 import { readJson } from "../json.ts";
+import { readonlyObject } from "../schema.ts";
 
-export interface City {
-  readonly latitude: string;
-  readonly longitude: string;
-  readonly province: string;
-  readonly state: string;
-  readonly city: string;
-}
+export const City = readonlyObject({
+  latitude: v.string(),
+  longitude: v.string(),
+  province: v.string(),
+  state: v.string(),
+  city: v.string(),
+});
 
-const cities: readonly City[] = await readJson(
-  new URL("./cities.json", import.meta.url),
+export type City = v.InferOutput<typeof City>;
+
+const cities = await readJson(
+  new URL("cities.json", import.meta.url),
+  v.array(City),
   [],
 );
 

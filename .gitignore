@@ -3,8 +3,10 @@
 node_modules
 !/.editorconfig
 !/.gitignore
+!/.oxlintrc.json
 !/README.md
 !/witch.webp
 !/package.json
+!/pnpm-lock.yaml
 !/tsconfig.json
 !/src/stores/cities.json

@@ -31,10 +31,10 @@ export async function promptForLocation(): Promise<LocationToSave> {
 
   if (typeof selectedLocation === "object") return selectedLocation;
 
-  let loc =
+  const loc =
     selectedLocation === "by-city"
       ? await promptForLocationByCity()
       : await promptForLocationManual();
 
-  return await promptToSaveLocation(loc);
+  return promptToSaveLocation(loc);
 }

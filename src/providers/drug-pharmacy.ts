@@ -1,3 +1,6 @@
+import * as v from "valibot";
+import { readonlyObject } from "../schema.ts";
+
 /** @see {@link https://mobile.ttac.ir/static/js/model/DrugShortagePharmacyInventoryListSearchMode.js DrugShortagePharmacyInventoryListSearchMode} */
 export const SEARCH_MODES = {
   ORDER_BY_DISTANCE: { value: 1, text: "جستجو بر اساس فاصله" },
@@ -11,69 +14,81 @@ export const SEARCH_MODES = {
 /** Seriously? :p */
 const FAKE_CLIENT_IP = "000.000.000.000";
 
-export interface TtacOptions {
-  readonly pageNumber: number;
-  readonly pageSize: number;
-  readonly longitude: number;
-  readonly latitude: number;
-  readonly drugIrc: string;
-  readonly drugIndexId: number;
-  readonly strict: boolean;
+export const TtacOptions = readonlyObject({
+  pageNumber: v.number(),
+  pageSize: v.number(),
+  longitude: v.number(),
+  latitude: v.number(),
+  drugIrc: v.string(),
+  drugIndexId: v.number(),
+  strict: v.boolean(),
   /** @see {@link SEARCH_MODES} */
-  readonly searchMode: number;
-}
+  searchMode: v.number(),
+});
 
-export interface TtacPharmacy {
-  readonly id: number;
-  readonly name: string;
-  readonly ownerName: string;
-  readonly technicalExpertName: null;
-  readonly telNumber: string;
-  readonly longitude: number;
-  readonly latitude: number;
-  readonly hix: string;
-  readonly universityName: string;
-  readonly pharmacyService1: string;
-  readonly pharmacyServiceType1: number;
-  readonly pharmacyType: null;
-  readonly pharmacyTypeId: null;
-  readonly gln: string;
-  readonly city: string;
-  readonly county: string;
-  readonly province: string;
-  readonly address: string;
-}
+export type TtacOptions = v.InferOutput<typeof TtacOptions>;
 
-export interface TtacDrug {
-  readonly irc: string;
-  readonly enBrandName: string;
-  readonly faBrandName: string;
-  readonly drugGenericName: null;
-  readonly indexFaName: null;
-  readonly indexEnName: null;
-  readonly genericCode: number;
-  readonly drugIndexId: number;
-}
+export const TtacPharmacy = readonlyObject({
+  id: v.number(),
+  name: v.string(),
+  ownerName: v.string(),
+  technicalExpertName: v.optional(v.unknown()),
+  telNumber: v.string(),
+  longitude: v.number(),
+  latitude: v.number(),
+  hix: v.string(),
+  universityName: v.string(),
+  pharmacyService1: v.string(),
+  pharmacyServiceType1: v.number(),
+  pharmacyType: v.optional(v.unknown()),
+  pharmacyTypeId: v.optional(v.unknown()),
+  gln: v.string(),
+  city: v.string(),
+  county: v.string(),
+  province: v.string(),
+  address: v.string(),
+});
 
-export interface TtacResult extends TtacDrug {
-  readonly secondsFromLastSellDate: number;
-  readonly pharmacy: TtacPharmacy;
-}
+export type TtacPharmacy = v.InferOutput<typeof TtacPharmacy>;
+
+export const TtacDrug = readonlyObject({
+  irc: v.string(),
+  enBrandName: v.string(),
+  faBrandName: v.string(),
+  drugGenericName: v.optional(v.unknown()),
+  indexFaName: v.optional(v.unknown()),
+  indexEnName: v.optional(v.unknown()),
+  genericCode: v.number(),
+  drugIndexId: v.number(),
+});
+
+export type TtacDrug = v.InferOutput<typeof TtacDrug>;
+
+export const TtacResult = v.intersect([
+  TtacDrug,
+  readonlyObject({
+    secondsFromLastSellDate: v.number(),
+    pharmacy: TtacPharmacy,
+  }),
+]);
+
+export type TtacResult = v.InferOutput<typeof TtacResult>;
 
 export async function callTtac(options: TtacOptions) {
   const request = await fetch(
-    "https://newapi.ttac.ir/irfdamobile/v1/getrecentlysolddrugpharmacy?" +
-      new URLSearchParams({
-        PageNumber: "" + options.pageNumber,
-        PageSize: "" + options.pageSize,
-        Longitude: "" + options.longitude,
-        Latitude: "" + options.latitude,
-        DrugIrc: "" + options.drugIrc,
-        DrugIndexId: "" + options.drugIndexId,
-        OnlyFilterByIrc: "" + options.strict,
-        SearchMode: "" + options.searchMode,
+    `https://newapi.ttac.ir/irfdamobile/v1/getrecentlysolddrugpharmacy?${new URLSearchParams(
+      {
+        PageNumber: `${options.pageNumber}`,
+        PageSize: `${options.pageSize}`,
+        Longitude: `${options.longitude}`,
+        Latitude: `${options.latitude}`,
+        DrugIrc: options.drugIrc,
+        DrugIndexId: `${options.drugIndexId}`,
+        OnlyFilterByIrc: `${options.strict}`,
+        SearchMode: `${options.searchMode}`,
         ClientIp: FAKE_CLIENT_IP,
-      }),
+      },
+    ).toString()}`,
     {
       headers: {
         Accept: "*/*",
@@ -91,7 +106,12 @@ export async function callTtac(options: TtacOptions) {
     },
   );
 
-  const json = await request.json();
+  const json = v.parse(
+    v.object({
+      results: v.array(TtacResult),
+    }),
+    await request.json(),
+  );
 
-  return json.results as TtacResult[];
+  return json.results;
 }

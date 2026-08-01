@@ -19,7 +19,7 @@ export async function promptToSearch(index: number) {
         value: i,
         label: i.faBrandName,
       }))
-      .sort((a, b) => a.label.localeCompare(b.label, "fa")),
+      .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });
 
   if (isCancel(selectedDrugs)) {
@@ -35,6 +35,7 @@ export async function promptToSearch(index: number) {
   for (const i of selectedDrugs) {
     s.start(`درحال بارگذاری ${i.faBrandName}`);
 
+    // oxlint-disable-next-line init-declarations
     let items;
 
     try {

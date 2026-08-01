@@ -11,9 +11,9 @@ export async function promptToFilterByCity(
   }[] = [...new Map(results.map((i) => [i.pharmacy.city, i])).values()]
     .map((i) => ({
       value: i,
-      label: i.pharmacy.city + " - " + i.pharmacy.province,
+      label: `${i.pharmacy.city} - ${i.pharmacy.province}`,
     }))
-    .sort((a, b) => a.label.localeCompare(b.label, "fa"));
+    .toSorted((a, b) => a.label.localeCompare(b.label, "fa"));
 
   if (oldFilter !== undefined) {
     options.unshift({

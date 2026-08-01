@@ -1,15 +1,19 @@
 {
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"start": "node src/index.ts"
-	},
-	"devDependencies": {
-		"@types/node": "^24.12.2"
-	},
-	"dependencies": {
-		"@clack/prompts": "^1.6.0",
-		"clipboardy": "^5.3.2",
-		"node-pager": "^0.3.6"
-	}
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.2",
+    "oxlint": "^1.62.0",
+    "oxlint-tsgolint": "^0.22.1",
+    "typescript": "^7.0.2",
+    "valibot": "^1.4.2"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.6.0",
+    "clipboardy": "^5.3.2",
+    "node-pager": "^0.3.6"
+  }
 }
