@@ -8,11 +8,13 @@ import {
 import { formatPharmacy } from "../formatting/pharmacy.ts";
 import type {
   TtacDrug,
+  TtacDrugPharmacy,
   TtacPharmacy,
-  TtacResult,
 } from "../providers/drug-pharmacy.ts";
 
-export async function promptForDisplay(results: readonly TtacResult[]) {
+export async function promptForDisplay(
+  drugPharmacies: readonly TtacDrugPharmacy[],
+) {
   const parts: string[] = [];
   const drugs = new Map<string, TtacDrug>();
   const pharmacies = new Map<
@@ -20,7 +22,7 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
     { pharmacy: TtacPharmacy; durations: Map<string, number> }
   >();
 
-  for (const i of results) {
+  for (const i of drugPharmacies) {
     drugs.set(i.irc, i);
     const durations =
       pharmacies.get(i.pharmacy.id)?.durations ?? new Map<string, number>();
@@ -40,7 +42,7 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
   for (const i of drugs.values()) {
     parts.push(formatDrugSectionHeading(i));
 
-    const sorted = results
+    const sorted = drugPharmacies
       .filter((j) => j.irc !== i.irc)
       .toSorted(
         (a, b) =>
@@ -66,7 +68,7 @@ export async function promptForDisplay(results: readonly TtacResult[]) {
 
   while (true) {
     const action = await select({
-      message: `نتایج - ${results.length}`,
+      message: `نتایج - ${drugPharmacies.length}`,
       options: [
         { value: "pager", label: "نمایش با پیجر" },
         { value: "copy", label: "کپی به بریده‌دان" },

@@ -1,12 +1,12 @@
 import { isCancel, select } from "@clack/prompts";
+import { listDrugPharmacyBatches } from "../stores/drug-pharmacies.ts";
 import { getDrugs } from "../stores/drugs.ts";
 import { getFilters } from "../stores/filters.ts";
 import { getLocations } from "../stores/locations.ts";
-import { getOldResultNames } from "../stores/old-results.ts";
+import { promptToManageDrugPharmaciesStorage } from "./storage-drug-pharmacies.ts";
 import { promptToManageDrugsStorage } from "./storage-drugs.ts";
 import { promptToManageFiltersStorage } from "./storage-filters.ts";
 import { promptToManageLocationsStorage } from "./storage-locations.ts";
-import { promptToManageOldResultsStorage } from "./storage-old-results.ts";
 
 export async function promptToManageStorage() {
   while (true) {
@@ -25,9 +25,9 @@ export async function promptToManageStorage() {
           disabled: getLocations().length === 0,
         },
         {
-          value: "old-results",
+          value: "drug-pharmacies",
           label: "نتایج",
-          disabled: getOldResultNames().length === 0,
+          disabled: listDrugPharmacyBatches().length === 0,
         },
         { value: "back", label: "بازگشت" },
       ],
@@ -51,8 +51,8 @@ export async function promptToManageStorage() {
         break;
       }
 
-      case "old-results": {
-        await promptToManageOldResultsStorage();
+      case "drug-pharmacies": {
+        await promptToManageDrugPharmaciesStorage();
         break;
       }
 

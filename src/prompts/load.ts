@@ -1,6 +1,6 @@
 import { isCancel, multiselect } from "@clack/prompts";
-import { formatResultsFilename } from "../formatting/filename.ts";
-import { getOldResult } from "../stores/old-results.ts";
+import { formatDrugPharmacyBatchName } from "../formatting/drug-pharmacy.ts";
+import { getDrugPharmacyBatch } from "../stores/drug-pharmacies.ts";
 
 export async function promptToLoad(files: readonly string[]) {
   const selectedFiles = await multiselect({
@@ -8,7 +8,7 @@ export async function promptToLoad(files: readonly string[]) {
     options: files
       .map((i) => ({
         value: i,
-        label: formatResultsFilename(i),
+        label: formatDrugPharmacyBatchName(i),
       }))
       .toSorted(
         (a, b) =>
@@ -21,11 +21,11 @@ export async function promptToLoad(files: readonly string[]) {
     return [];
   }
 
-  const results = [];
+  const drugPharmacies = [];
 
   for (const i of selectedFiles) {
-    results.push(...(await getOldResult(i)));
+    drugPharmacies.push(...(await getDrugPharmacyBatch(i)));
   }
 
-  return results;
+  return drugPharmacies;
 }

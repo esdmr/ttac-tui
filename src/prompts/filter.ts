@@ -1,12 +1,12 @@
 import { isCancel, select } from "@clack/prompts";
 import { SECONDS_PER_DAY } from "../formatting/duration.ts";
 import { formatFilter, isFilterEmpty } from "../formatting/filter.ts";
-import type { TtacResult } from "../providers/drug-pharmacy.ts";
+import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
 import { appendFilters, getFilters, type Filter } from "../stores/filters.ts";
 import { promptToFilterByCity } from "./filter-by-city.ts";
 import { promptToFilterByDays } from "./filter-by-days.ts";
 
-function match(i: TtacResult, filter: Filter): boolean {
+function match(i: TtacDrugPharmacy, filter: Filter): boolean {
   return (
     // oxlint-disable-next-line typescript/strict-boolean-expressions
     (!filter.city || i.pharmacy.city === filter.city) &&
@@ -15,13 +15,15 @@ function match(i: TtacResult, filter: Filter): boolean {
   );
 }
 
-export async function promptToFilter(results: readonly TtacResult[]) {
+export async function promptToFilter(
+  drugPharmacies: readonly TtacDrugPharmacy[],
+) {
   let filter: Filter = {};
 
   while (true) {
     let matchCount = 0;
 
-    for (const i of results) {
+    for (const i of drugPharmacies) {
       if (match(i, filter)) matchCount++;
     }
 
@@ -61,7 +63,7 @@ export async function promptToFilter(results: readonly TtacResult[]) {
 
       // oxlint-disable-next-line no-fallthrough
       case "done": {
-        return results.filter((i) => match(i, filter));
+        return drugPharmacies.filter((i) => match(i, filter));
       }
 
       case "clear": {
@@ -72,7 +74,7 @@ export async function promptToFilter(results: readonly TtacResult[]) {
       case "by-city": {
         filter = {
           ...filter,
-          city: await promptToFilterByCity(results, filter.city),
+          city: await promptToFilterByCity(drugPharmacies, filter.city),
         };
         break;
       }

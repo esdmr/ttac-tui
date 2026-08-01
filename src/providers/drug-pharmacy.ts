@@ -64,7 +64,7 @@ export const TtacDrug = readonlyObject({
 
 export type TtacDrug = v.InferOutput<typeof TtacDrug>;
 
-export const TtacResult = v.intersect([
+export const TtacDrugPharmacy = v.intersect([
   TtacDrug,
   readonlyObject({
     secondsFromLastSellDate: v.number(),
@@ -72,7 +72,7 @@ export const TtacResult = v.intersect([
   }),
 ]);
 
-export type TtacResult = v.InferOutput<typeof TtacResult>;
+export type TtacDrugPharmacy = v.InferOutput<typeof TtacDrugPharmacy>;
 
 export async function callTtac(options: TtacOptions) {
   const request = await fetch(
@@ -108,7 +108,7 @@ export async function callTtac(options: TtacOptions) {
 
   const json = v.parse(
     v.object({
-      results: v.array(TtacResult),
+      results: v.array(TtacDrugPharmacy),
     }),
     await request.json(),
   );

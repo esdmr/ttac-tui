@@ -1,14 +1,14 @@
 import { autocomplete, isCancel } from "@clack/prompts";
-import type { TtacResult } from "../providers/drug-pharmacy.ts";
+import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
 
 export async function promptToFilterByCity(
-  results: readonly TtacResult[],
+  drugPharmacies: readonly TtacDrugPharmacy[],
   oldFilter: string | undefined,
 ): Promise<string | undefined> {
   const options: {
-    value: TtacResult | undefined;
+    value: TtacDrugPharmacy | undefined;
     label: string;
-  }[] = [...new Map(results.map((i) => [i.pharmacy.city, i])).values()]
+  }[] = [...new Map(drugPharmacies.map((i) => [i.pharmacy.city, i])).values()]
     .map((i) => ({
       value: i,
       label: `${i.pharmacy.city} - ${i.pharmacy.province}`,
@@ -22,11 +22,11 @@ export async function promptToFilterByCity(
     });
   }
 
-  const selectedResult = await autocomplete({
+  const selectedCity = await autocomplete({
     message: "شهر را انتخاب کنید",
     options,
   });
 
-  if (isCancel(selectedResult)) return oldFilter;
-  return selectedResult?.pharmacy.city;
+  if (isCancel(selectedCity)) return oldFilter;
+  return selectedCity?.pharmacy.city;
 }

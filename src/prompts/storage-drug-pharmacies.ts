@@ -1,9 +1,12 @@
 import { isCancel, log, multiselect } from "@clack/prompts";
-import { formatResultsFilename } from "../formatting/filename.ts";
-import { getOldResultNames, removeOldResults } from "../stores/old-results.ts";
+import { formatDrugPharmacyBatchName } from "../formatting/drug-pharmacy.ts";
+import {
+  listDrugPharmacyBatches,
+  removeDrugPharmacyBatches,
+} from "../stores/drug-pharmacies.ts";
 
-export async function promptToManageOldResultsStorage() {
-  if (getOldResultNames().length === 0) {
+export async function promptToManageDrugPharmaciesStorage() {
+  if (listDrugPharmacyBatches().length === 0) {
     log.error("نتیجه قدیمی ذخیره‌شده‌ای یافت نشد.");
     return;
   }
@@ -11,14 +14,14 @@ export async function promptToManageOldResultsStorage() {
   const items = await multiselect({
     message: "نتایج قدیمی را جهت حذف انتخاب کنید",
     required: false,
-    options: getOldResultNames()
+    options: listDrugPharmacyBatches()
       .map((i) => ({
         value: i,
-        label: formatResultsFilename(i),
+        label: formatDrugPharmacyBatchName(i),
       }))
       .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });
 
   if (isCancel(items) || items.length === 0) return;
-  await removeOldResults(items);
+  await removeDrugPharmacyBatches(items);
 }

@@ -1,6 +1,6 @@
 import { isCancel, log, select } from "@clack/prompts";
 import { list } from "../formatting/list.ts";
-import { getOldResultNames } from "../stores/old-results.ts";
+import { listDrugPharmacyBatches } from "../stores/drug-pharmacies.ts";
 import { promptForDisplay } from "./display.ts";
 import { promptToSaveDrugs } from "./drugs-save.ts";
 import { promptToFilter } from "./filter.ts";
@@ -10,7 +10,7 @@ import { promptToManageStorage } from "./storage.ts";
 
 export async function mainPrompt() {
   while (true) {
-    const oldFiles = getOldResultNames();
+    const oldDrugPharmacies = listDrugPharmacyBatches();
 
     const action = await select({
       message: "عملیات",
@@ -19,7 +19,7 @@ export async function mainPrompt() {
         {
           value: "load",
           label: "بارگذاری نتایج قدیمی",
-          disabled: oldFiles.length === 0,
+          disabled: oldDrugPharmacies.length === 0,
         },
         {
           value: "storage",
@@ -35,32 +35,32 @@ export async function mainPrompt() {
       continue;
     }
 
-    const results =
+    const drugPharmacies =
       action === "search"
-        ? await promptToSearch(oldFiles.length)
-        : await promptToLoad(oldFiles);
+        ? await promptToSearch(oldDrugPharmacies.length)
+        : await promptToLoad(oldDrugPharmacies);
 
-    if (results.length === 0) {
+    if (drugPharmacies.length === 0) {
       log.message("بدون نتیجه.");
       return;
     }
 
-    const drugNames = new Set(results.map((i) => i.faBrandName));
+    const drugNames = new Set(drugPharmacies.map((i) => i.faBrandName));
 
     log.info(
       `دارو‌های موجود: ${list.format([...drugNames].toSorted((a, b) => a.localeCompare(b, "fa")))}`,
     );
 
-    await promptToSaveDrugs(results);
+    await promptToSaveDrugs(drugPharmacies);
 
-    const filteredResults = await promptToFilter(results);
+    const filteredDrugPharmacies = await promptToFilter(drugPharmacies);
 
-    if (filteredResults.length === 0) {
+    if (filteredDrugPharmacies.length === 0) {
       log.message("بدون نتیجه.");
       return;
     }
 
-    await promptForDisplay(filteredResults);
+    await promptForDisplay(filteredDrugPharmacies);
     return;
   }
 }

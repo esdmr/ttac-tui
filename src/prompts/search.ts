@@ -1,12 +1,12 @@
 import { isCancel, log, multiselect, spinner } from "@clack/prompts";
-import { formatResultsFilename } from "../formatting/filename.ts";
+import { formatDrugPharmacyBatchName } from "../formatting/drug-pharmacy.ts";
 import {
   callTtac,
   SEARCH_MODES,
-  type TtacResult,
+  type TtacDrugPharmacy,
 } from "../providers/drug-pharmacy.ts";
 import { getDrugs } from "../stores/drugs.ts";
-import { setResult } from "../stores/old-results.ts";
+import { setDrugPharmacyBatch } from "../stores/drug-pharmacies.ts";
 import { promptForLocation } from "./location.ts";
 
 export async function promptToSearch(index: number) {
@@ -28,7 +28,7 @@ export async function promptToSearch(index: number) {
 
   const { lat, lng } = await promptForLocation();
 
-  const results: TtacResult[] = [];
+  const drugPharmacies: TtacDrugPharmacy[] = [];
 
   const s = spinner();
 
@@ -57,15 +57,15 @@ export async function promptToSearch(index: number) {
 
     const fileName = `/tmp/ttac.${index}.${items[0].faBrandName.toLowerCase().replaceAll(/\P{L}+/gu, "-")}.json`;
 
-    await setResult(fileName, items);
+    await setDrugPharmacyBatch(fileName, items);
 
     log.message(
-      `نتیجه ${items[0].faBrandName} به ${formatResultsFilename(fileName)} نوشته شد.`,
+      `نتیجه ${items[0].faBrandName} به ${formatDrugPharmacyBatchName(fileName)} نوشته شد.`,
     );
 
     index++;
-    results.push(...items);
+    drugPharmacies.push(...items);
   }
 
-  return results;
+  return drugPharmacies;
 }

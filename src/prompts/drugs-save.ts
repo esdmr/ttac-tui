@@ -1,11 +1,13 @@
 import { isCancel, multiselect } from "@clack/prompts";
-import type { TtacResult } from "../providers/drug-pharmacy.ts";
+import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
 import { appendDrugs, getDrugs } from "../stores/drugs.ts";
 
-export async function promptToSaveDrugs(results: readonly TtacResult[]) {
+export async function promptToSaveDrugs(
+  drugPharmacies: readonly TtacDrugPharmacy[],
+) {
   const oldDrugs = getDrugs();
 
-  const newDrugs = [...new Map(results.map((i) => [i.irc, i])).values()]
+  const newDrugs = [...new Map(drugPharmacies.map((i) => [i.irc, i])).values()]
     .filter(
       (i) =>
         !oldDrugs.some(

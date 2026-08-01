@@ -1,3 +1,3 @@
-export function formatResultsFilename(file: string) {
+export function formatDrugPharmacyBatchName(file: string) {
   return file.replace(/^\/tmp\/ttac\./, "").replace(/\.json$/, "");
 }
