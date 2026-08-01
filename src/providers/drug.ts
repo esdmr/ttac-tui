@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { RateLimitError } from "../error.ts";
+import { ApiError, RateLimitError } from "../error.ts";
 import { readonlyArray, readonlyObject } from "../schema.ts";
 import { TtacDrug } from "./drug-pharmacy.ts";
 
@@ -62,7 +62,7 @@ const TtacDrugsResponse = readonlyObject({
 type TtacDrugsResponse = v.InferOutput<typeof TtacDrugsResponse>;
 
 export async function fetchTtacDrug(options: TtacDrugsOptions) {
-  const response = await fetch(
+  const request = new Request(
     `https://newapi.ttac.ir/irfdamobile/v1/getnfisearch?${new URLSearchParams({
       Term: options.term,
       PageNumber: `${options.pageNumber}`,
@@ -87,8 +87,14 @@ export async function fetchTtacDrug(options: TtacDrugsOptions) {
     },
   );
 
+  const response = await fetch(request);
+
   if (response.status === 429) {
-    throw new RateLimitError(response);
+    throw new RateLimitError(request, response);
+  }
+
+  if (!response.ok) {
+    throw new ApiError(request, response);
   }
 
   const json = v.parse(TtacDrugsResponse, await response.json());

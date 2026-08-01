@@ -4,7 +4,7 @@ import process from "node:process";
 import { ApplicationError } from "./error.ts";
 import { mainPrompt } from "./prompts/main.ts";
 
-if (import.meta.main) {
+export async function main() {
   try {
     intro("رابط برای TTAC");
     await mainPrompt();
@@ -12,7 +12,7 @@ if (import.meta.main) {
   } catch (error) {
     log.error(
       error instanceof ApplicationError
-        ? error.message
+        ? await error.prepareString()
         : error instanceof Error
           ? (error.stack ?? error.message)
           : String(error),
@@ -20,4 +20,9 @@ if (import.meta.main) {
     outro();
     process.exit(1);
   }
+}
+
+if (import.meta.main) {
+  // oxlint-disable-next-line unicorn/prefer-top-level-await
+  void main();
 }

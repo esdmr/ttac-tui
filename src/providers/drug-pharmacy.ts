@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { RateLimitError } from "../error.ts";
+import { ApiError, RateLimitError } from "../error.ts";
 import { readonlyObject } from "../schema.ts";
 
 /** @see {@link https://mobile.ttac.ir/static/js/model/DrugShortagePharmacyInventoryListSearchMode.js DrugShortagePharmacyInventoryListSearchMode} */
@@ -80,7 +80,7 @@ export type TtacDrugPharmacy = v.InferOutput<typeof TtacDrugPharmacy>;
 export async function fetchTtacDrugPharmacies(
   options: TtacDrugPharmaciesOptions,
 ) {
-  const response = await fetch(
+  const request = new Request(
     `https://newapi.ttac.ir/irfdamobile/v1/getrecentlysolddrugpharmacy?${new URLSearchParams(
       {
         PageNumber: `${options.pageNumber}`,
@@ -111,8 +111,14 @@ export async function fetchTtacDrugPharmacies(
     },
   );
 
+  const response = await fetch(request);
+
   if (response.status === 429) {
-    throw new RateLimitError(response);
+    throw new RateLimitError(request, response);
+  }
+
+  if (!response.ok) {
+    throw new ApiError(request, response);
   }
 
   const json = v.parse(
