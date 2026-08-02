@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { ApiError, RateLimitError } from "../error.ts";
-import { readonlyArray, readonlyObject } from "../schema.ts";
+import { dontCare, readonlyArray, readonlyObject } from "../schema.ts";
 import { TtacDrug } from "./drug-pharmacy.ts";
 
 /** Seriously? :p */
@@ -23,6 +23,7 @@ export const TtacDrugLicense = readonlyObject({
   drugGenericName: v.string(),
   drugGenericFaName: v.string(),
   drugGenericId: v.number(),
+  drugGenericCode: dontCare(v.number()),
   drugFamilyFaTitle: dontCare(),
   drugFamilyEnTitle: dontCare(),
   enBrandName: v.string(),
@@ -42,6 +43,10 @@ export const TtacDrugLicense = readonlyObject({
   persianExpirationDate: dontCare(),
   status: dontCare(),
   packageConsumerPrice: v.nullable(v.number()),
+  nameDescription: dontCare(),
+  producerCountryISO2: dontCare(v.string()),
+  producerCountryEnName: dontCare(v.string()),
+  producerCountryFaName: dontCare(v.string()),
 });
 export type TtacDrugLicense = v.InferOutput<typeof TtacDrugLicense>;
 
