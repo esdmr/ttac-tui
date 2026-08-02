@@ -3,8 +3,8 @@ import { dontCare, readonlyArray, readonlyObject } from "../schema.ts";
 import { TtacDrugPharmacy } from "./drug-pharmacy.ts";
 
 export const TtacDrugPharmaciesResponse = readonlyObject({
-  results: readonlyArray(TtacDrugPharmacy),
   count: dontCare(v.number()),
+  results: readonlyArray(TtacDrugPharmacy),
 });
 
 export type TtacDrugPharmaciesResponse = v.InferOutput<

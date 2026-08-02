@@ -5,7 +5,7 @@ import type { TtacDrugsOptions } from "../types/drug-option.ts";
 import { TtacDrugsResponse } from "../types/drug-response.ts";
 
 /** Seriously? :p */
-export const FAKE_CLIENT_IP = "000.000.000.000";
+const FAKE_CLIENT_IP = "000.000.000.000";
 
 export async function fetchTtacDrug(options: TtacDrugsOptions) {
   const request = new Request(
@@ -48,6 +48,6 @@ export async function fetchTtacDrug(options: TtacDrugsOptions) {
   return json.data.drugLicenses.map<TtacDrugExtra>((i) => ({
     ...i,
     drugIndexId: i.indexId,
-    genericCode: i.drugGenericId,
+    genericCode: i.drugGenericCode,
   }));
 }

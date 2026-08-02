@@ -76,8 +76,8 @@ export async function promptToSearch(index: number) {
           pageSize: 50,
           strict: true,
           searchMode: SEARCH_MODES.ORDER_BY_DISTANCE.value,
-          latitude: loc.lat,
-          longitude: loc.lng,
+          latitude: loc.latitude,
+          longitude: loc.longitude,
         }),
       );
 

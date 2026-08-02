@@ -6,8 +6,8 @@ import { TtacPharmacy } from "./pharmacy.ts";
 export const TtacDrugPharmacy = v.intersect([
   TtacDrug,
   readonlyObject({
-    secondsFromLastSellDate: v.number(),
     pharmacy: TtacPharmacy,
+    secondsFromLastSellDate: v.number(),
   }),
 ]);
 

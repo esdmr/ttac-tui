@@ -1,5 +1,7 @@
 import { ltr, rtl } from "../bidi.ts";
-import type { TtacPharmacy } from '../types/pharmacy.ts';
+import type { TtacPharmacy } from "../types/pharmacy.ts";
+import { formatCity } from "./city.ts";
+import { formatCoordinate } from "./coordinate.ts";
 import { formatSecondsAsDays } from "./duration.ts";
 import { list } from "./list.ts";
 
@@ -8,7 +10,7 @@ export function formatPharmacy(i: TtacPharmacy, ...durations: number[]) {
 }
 
 export function formatPharmacyLocation(
-  i: Pick<TtacPharmacy, "city" | "province">,
+  i: Pick<TtacPharmacy, "city" | "province" | "latitude" | "longitude">,
 ) {
-  return rtl`${i.city} - ${i.province}`;
+  return rtl`${formatCity(i)} (${formatCoordinate(i.latitude, i.longitude)})`;
 }

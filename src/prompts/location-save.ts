@@ -1,11 +1,11 @@
 import { confirm, isCancel, text } from "@clack/prompts";
 import { appendLocations } from "../stores/locations.ts";
-import { type Location } from '../types/location.ts';
+import { type Location } from "../types/location.ts";
 
 export interface LocationToSave {
   readonly name: string | undefined;
-  readonly lat: number;
-  readonly lng: number;
+  readonly latitude: number;
+  readonly longitude: number;
 }
 
 export async function promptToSaveLocation(loc: LocationToSave) {

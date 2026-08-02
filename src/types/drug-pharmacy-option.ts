@@ -13,15 +13,15 @@ export const SEARCH_MODES = {
 } as const;
 
 export const TtacDrugPharmaciesOptions = readonlyObject({
+  drugIndexId: v.number(),
+  drugIrc: v.string(),
+  latitude: v.number(),
+  longitude: v.number(),
   pageNumber: v.number(),
   pageSize: v.number(),
-  longitude: v.number(),
-  latitude: v.number(),
-  drugIrc: v.string(),
-  drugIndexId: v.number(),
-  strict: v.boolean(),
   /** @see {@link SEARCH_MODES} */
   searchMode: v.number(),
+  strict: v.boolean(),
 });
 
 export type TtacDrugPharmaciesOptions = v.InferOutput<

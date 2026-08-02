@@ -38,7 +38,7 @@ export async function promptForLocationManual(): Promise<
 
   return {
     name: undefined,
-    lat: +selectedLat,
-    lng: +selectedLng,
+    latitude: +selectedLat,
+    longitude: +selectedLng,
   };
 }
