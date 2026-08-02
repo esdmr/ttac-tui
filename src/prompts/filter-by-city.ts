@@ -1,4 +1,5 @@
 import { autocomplete, isCancel } from "@clack/prompts";
+import { formatPharmacyLocation } from "../formatting/pharmacy.ts";
 import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
 
 export async function promptToFilterByCity(
@@ -6,12 +7,12 @@ export async function promptToFilterByCity(
   oldFilter: string | undefined,
 ): Promise<string | undefined> {
   const options: {
-    value: TtacDrugPharmacy | undefined;
+    value: string | undefined;
     label: string;
   }[] = [...new Map(drugPharmacies.map((i) => [i.pharmacy.city, i])).values()]
     .map((i) => ({
-      value: i,
-      label: `${i.pharmacy.city} - ${i.pharmacy.province}`,
+      value: i.pharmacy.city,
+      label: formatPharmacyLocation(i.pharmacy),
     }))
     .toSorted((a, b) => a.label.localeCompare(b.label, "fa"));
 
@@ -28,5 +29,5 @@ export async function promptToFilterByCity(
   });
 
   if (isCancel(selectedCity)) return oldFilter;
-  return selectedCity?.pharmacy.city;
+  return selectedCity;
 }

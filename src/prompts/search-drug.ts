@@ -1,4 +1,5 @@
 import { isCancel, log, select, text } from "@clack/prompts";
+import { formatDrugLabel } from "../formatting/drug.ts";
 import { fetchTtacDrug } from "../providers/drug.ts";
 import { spin } from "../spinner.ts";
 
@@ -28,7 +29,7 @@ export async function searchForDrug() {
       options: drugs
         .map((i) => ({
           value: i,
-          label: i.faBrandName,
+          label: formatDrugLabel(i),
         }))
         .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
     });

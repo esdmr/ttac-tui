@@ -1,7 +1,8 @@
+import { ltr, rtl } from "../bidi.ts";
 import type { TtacDrug } from "../providers/drug-pharmacy.ts";
 
 export function formatDrugLabel(i: TtacDrug) {
-  return `${i.faBrandName} (${i.irc})`;
+  return rtl`${i.faBrandName} (${ltr`${i.irc}`})`;
 }
 
 export function formatDrugSectionHeading(i: TtacDrug) {

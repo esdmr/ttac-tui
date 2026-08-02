@@ -1,6 +1,7 @@
 import { autocomplete, isCancel } from "@clack/prompts";
 import { UnreachableError } from "../error.ts";
 import { dmsStringToDecimal } from "../formatting/coordinate.ts";
+import { formatPharmacyLocation } from "../formatting/pharmacy.ts";
 import { getCities } from "../stores/cities.ts";
 import type { LocationToSave } from "./location-save.ts";
 
@@ -12,7 +13,7 @@ export async function promptForLocationByCity(): Promise<
     options: getCities()
       .map((i) => ({
         value: i,
-        label: `${i.city} - ${i.province}`,
+        label: formatPharmacyLocation(i),
       }))
       .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });

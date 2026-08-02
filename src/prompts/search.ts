@@ -1,6 +1,7 @@
 import { isCancel, log, multiselect } from "@clack/prompts";
 import { UnreachableError } from "../error.ts";
 import { formatDrugPharmacyBatchName } from "../formatting/drug-pharmacy.ts";
+import { formatDrugLabel } from "../formatting/drug.ts";
 import {
   fetchTtacDrugPharmacies,
   SEARCH_MODES,
@@ -25,7 +26,7 @@ export async function promptToSearch(index: number) {
         ...drugs
           .map((i) => ({
             value: i,
-            label: i.faBrandName,
+            label: formatDrugLabel(i),
           }))
           .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
         {
@@ -67,7 +68,7 @@ export async function promptToSearch(index: number) {
         );
       }
 
-      const items = await spin(`درحال بارگذاری ${i.faBrandName}`, async () =>
+      const items = await spin(`درحال بارگذاری «${i.faBrandName}»`, async () =>
         fetchTtacDrugPharmacies({
           drugIrc: i.irc,
           drugIndexId: i.drugIndexId,

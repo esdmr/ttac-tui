@@ -1,4 +1,5 @@
 import { isCancel, multiselect } from "@clack/prompts";
+import { formatDrugLabel } from "../formatting/drug.ts";
 import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
 import { appendDrugs, getDrugs } from "../stores/drugs.ts";
 
@@ -21,7 +22,7 @@ export async function promptToSaveDrugs(
           options: newDrugs
             .map((i) => ({
               value: i,
-              label: i.faBrandName,
+              label: formatDrugLabel(i),
             }))
             .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
           required: false,

@@ -1,4 +1,5 @@
 import { isCancel, select } from "@clack/prompts";
+import { formatLocation } from "../formatting/location.ts";
 import { getLocations, type Location } from "../stores/locations.ts";
 import { promptForLocationByCity } from "./location-by-city.ts";
 import { promptForLocationManual } from "./location-manual.ts";
@@ -14,7 +15,7 @@ export async function promptForLocation(): Promise<LocationToSave | undefined> {
         ...locations
           .map((i) => ({
             value: i,
-            label: i.name,
+            label: formatLocation(i),
           }))
           .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
         {

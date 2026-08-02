@@ -1,3 +1,5 @@
+import { ltr } from "../bidi.ts";
+
 /**
  * Parses the coordinate format in [`cities.json`](../stores/cities.json).
  *
@@ -20,4 +22,8 @@ export function dmsStringToDecimal(dms: string) {
   const absDeg = Math.abs(deg);
 
   return sign * (absDeg + min / 60 + sec / 3600);
+}
+
+export function formatCoordinate(lat: number, lng: number) {
+  return ltr`${Math.abs(lat).toFixed(3)}°${lat < 0 ? "S" : "N"} ${Math.abs(lng).toFixed(3)}°${lng < 0 ? "W" : "E"}`;
 }

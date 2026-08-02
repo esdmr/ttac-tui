@@ -1,4 +1,5 @@
 import { isCancel, log, multiselect } from "@clack/prompts";
+import { formatLocation } from "../formatting/location.ts";
 import { getLocations, removeLocations } from "../stores/locations.ts";
 
 export async function promptToManageLocationsStorage() {
@@ -13,7 +14,7 @@ export async function promptToManageLocationsStorage() {
     options: getLocations()
       .map((i) => ({
         value: i,
-        label: `${i.name} (${i.lat}° ${i.lng}°)`,
+        label: formatLocation(i),
       }))
       .toSorted((a, b) => a.label.localeCompare(b.label, "fa")),
   });
