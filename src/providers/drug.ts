@@ -1,70 +1,11 @@
 import * as v from "valibot";
 import { ApiError, RateLimitError } from "../error.ts";
-import { dontCare, readonlyArray, readonlyObject } from "../schema.ts";
-import { TtacDrug } from "./drug-pharmacy.ts";
+import type { TtacDrugExtra } from "../types/drug-extra.ts";
+import type { TtacDrugsOptions } from "../types/drug-option.ts";
+import { TtacDrugsResponse } from "../types/drug-response.ts";
 
 /** Seriously? :p */
-const FAKE_CLIENT_IP = "000.000.000.000";
-
-export const TtacDrugsOptions = readonlyObject({
-  term: v.string(),
-  pageNumber: v.number(),
-  pageSize: v.number(),
-});
-export type TtacDrugsOptions = v.InferOutput<typeof TtacDrugsOptions>;
-
-export const TtacDrugLicense = readonlyObject({
-  id: v.number(),
-  indexId: v.number(),
-  indexEnName: v.string(),
-  indexFaName: v.string(),
-  licenseOwnerCompanyName: v.string(),
-  licenseOwnerCompanyId: v.number(),
-  drugGenericName: v.string(),
-  drugGenericFaName: v.string(),
-  drugGenericId: v.number(),
-  drugGenericCode: dontCare(v.number()),
-  drugFamilyFaTitle: dontCare(),
-  drugFamilyEnTitle: dontCare(),
-  enBrandName: v.string(),
-  faBrandName: v.string(),
-  brandOwnerCompanyName: v.string(),
-  isBulk: v.boolean(),
-  licenseCode: dontCare(),
-  gtin: dontCare(),
-  irc: v.string(),
-  producerCompanyName: dontCare(),
-  producerCompanyCountryName: dontCare(),
-  drugLicenseItemPackageLayoutAttachmentIds: readonlyArray(v.string()),
-  appearanceAttachmentsIds: dontCare(),
-  unitOfUsePackaging: v.string(),
-  isO2: dontCare(),
-  countryFaName: dontCare(),
-  persianExpirationDate: dontCare(),
-  status: dontCare(),
-  packageConsumerPrice: v.nullable(v.number()),
-  nameDescription: dontCare(),
-  producerCountryISO2: dontCare(v.string()),
-  producerCountryEnName: dontCare(v.string()),
-  producerCountryFaName: dontCare(v.string()),
-});
-export type TtacDrugLicense = v.InferOutput<typeof TtacDrugLicense>;
-
-export const TtacDrugExtra = v.intersect([TtacDrug, TtacDrugLicense]);
-export type TtacDrugExtra = v.InferOutput<typeof TtacDrugExtra>;
-
-const TtacDrugsResponse = readonlyObject({
-  data: readonlyObject({
-    drugLicenses: readonlyArray(TtacDrugLicense),
-    suggestionDrugLicenses: readonlyArray(v.string()),
-    count: v.number(),
-  }),
-  succeeded: v.boolean(),
-  message: dontCare(),
-  statusCode: v.number(),
-  errors: dontCare(),
-});
-type TtacDrugsResponse = v.InferOutput<typeof TtacDrugsResponse>;
+export const FAKE_CLIENT_IP = "000.000.000.000";
 
 export async function fetchTtacDrug(options: TtacDrugsOptions) {
   const request = new Request(

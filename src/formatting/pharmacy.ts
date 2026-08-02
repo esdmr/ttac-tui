@@ -1,5 +1,5 @@
 import { ltr, rtl } from "../bidi.ts";
-import type { TtacPharmacy } from "../providers/drug-pharmacy.ts";
+import type { TtacPharmacy } from '../types/pharmacy.ts';
 import { formatSecondsAsDays } from "./duration.ts";
 import { list } from "./list.ts";
 

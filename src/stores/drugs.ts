@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { readJson, writeJson } from "../json.ts";
-import { TtacDrug } from "../providers/drug-pharmacy.ts";
+import { TtacDrug } from '../types/drug.ts';
 
 let drugs = await readJson(
   new URL("drugs.json", import.meta.url),

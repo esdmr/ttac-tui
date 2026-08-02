@@ -1,5 +1,6 @@
 import { confirm, isCancel, text } from "@clack/prompts";
-import { appendLocations, type Location } from "../stores/locations.ts";
+import { appendLocations } from "../stores/locations.ts";
+import { type Location } from '../types/location.ts';
 
 export interface LocationToSave {
   readonly name: string | undefined;

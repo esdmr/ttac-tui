@@ -4,10 +4,10 @@ import { formatDrugPharmacyBatchName } from "../formatting/drug-pharmacy.ts";
 import { formatDrugLabel } from "../formatting/drug.ts";
 import {
   fetchTtacDrugPharmacies,
-  SEARCH_MODES,
-  type TtacDrug,
-  type TtacDrugPharmacy,
 } from "../providers/drug-pharmacy.ts";
+import { SEARCH_MODES } from '../types/drug-pharmacy-option.ts';
+import { type TtacDrugPharmacy } from '../types/drug-pharmacy.ts';
+import { type TtacDrug } from '../types/drug.ts';
 import { spin } from "../spinner.ts";
 import { setDrugPharmacyBatch } from "../stores/drug-pharmacies.ts";
 import { appendDrugs, getDrugs } from "../stores/drugs.ts";

@@ -1,6 +1,6 @@
 import { autocomplete, isCancel } from "@clack/prompts";
 import { formatPharmacyLocation } from "../formatting/pharmacy.ts";
-import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
+import type { TtacDrugPharmacy } from '../types/drug-pharmacy.ts';
 
 export async function promptToFilterByCity(
   drugPharmacies: readonly TtacDrugPharmacy[],

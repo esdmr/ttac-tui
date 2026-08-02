@@ -1,13 +1,6 @@
 import * as v from "valibot";
 import { readJson, writeJson } from "../json.ts";
-import { readonlyObject } from "../schema.ts";
-
-export const Filter = readonlyObject({
-  city: v.optional(v.string()),
-  days: v.optional(v.number()),
-});
-
-export type Filter = v.InferOutput<typeof Filter>;
+import { Filter } from "../types/filter.ts";
 
 let filters = await readJson(
   new URL("filters.json", import.meta.url),

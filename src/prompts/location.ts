@@ -1,6 +1,7 @@
 import { isCancel, select } from "@clack/prompts";
 import { formatLocation } from "../formatting/location.ts";
-import { getLocations, type Location } from "../stores/locations.ts";
+import { getLocations } from "../stores/locations.ts";
+import { type Location } from '../types/location.ts';
 import { promptForLocationByCity } from "./location-by-city.ts";
 import { promptForLocationManual } from "./location-manual.ts";
 import { promptToSaveLocation, type LocationToSave } from "./location-save.ts";

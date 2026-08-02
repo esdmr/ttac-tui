@@ -2,7 +2,7 @@ import { isCancel, log, select } from "@clack/prompts";
 import clipboard from "clipboardy";
 import pager from "node-pager";
 import { formatDrugPharmacies } from "../formatting/drug-pharmacy.ts";
-import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
+import type { TtacDrugPharmacy } from '../types/drug-pharmacy.ts';
 
 export async function promptForDisplay(
   drugPharmacies: readonly TtacDrugPharmacy[],

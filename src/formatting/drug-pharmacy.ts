@@ -1,8 +1,6 @@
-import type {
-  TtacDrug,
-  TtacDrugPharmacy,
-  TtacPharmacy,
-} from "../providers/drug-pharmacy.ts";
+import type { TtacDrugPharmacy } from '../types/drug-pharmacy.ts';
+import type { TtacDrug } from '../types/drug.ts';
+import type { TtacPharmacy } from '../types/pharmacy.ts';
 import {
   formatAllDrugsSectionHeading,
   formatDrugSectionHeading,

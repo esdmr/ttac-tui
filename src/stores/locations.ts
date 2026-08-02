@@ -1,14 +1,6 @@
 import * as v from "valibot";
 import { readJson, writeJson } from "../json.ts";
-import { readonlyObject } from "../schema.ts";
-
-export const Location = readonlyObject({
-  name: v.string(),
-  lat: v.number(),
-  lng: v.number(),
-});
-
-export type Location = v.InferOutput<typeof Location>;
+import { Location } from "../types/location.ts";
 
 let locations: Location[] = await readJson(
   new URL("locations.json", import.meta.url),

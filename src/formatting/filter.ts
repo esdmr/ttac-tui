@@ -1,5 +1,5 @@
 import { rtl } from "../bidi.ts";
-import type { Filter } from "../stores/filters.ts";
+import type { Filter } from "../types/filter.ts";
 import { list } from "./list.ts";
 
 export function formatFilter(filter: Filter) {

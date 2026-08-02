@@ -1,6 +1,6 @@
 import { glob, rm } from "fs/promises";
 import { readJson, writeJson } from "../json.ts";
-import { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
+import { TtacDrugPharmacy } from '../types/drug-pharmacy.ts';
 import { readonlyArray } from "../schema.ts";
 
 let batches = await Array.fromAsync(glob("/tmp/ttac.*.json"));

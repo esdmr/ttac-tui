@@ -1,81 +1,10 @@
 import * as v from "valibot";
 import { ApiError, RateLimitError } from "../error.ts";
-import { dontCare, readonlyObject } from "../schema.ts";
-
-/** @see {@link https://mobile.ttac.ir/static/js/model/DrugShortagePharmacyInventoryListSearchMode.js DrugShortagePharmacyInventoryListSearchMode} */
-export const SEARCH_MODES = {
-  ORDER_BY_DISTANCE: { value: 1, text: "جستجو بر اساس فاصله" },
-  ORDER_BY_LAST_UPDATE_TIME: {
-    value: 2,
-    text: "جستجو بر اساس آخرین زمان فروش",
-  },
-  ORDER_BY_PARETO_FUNCTION: { value: 3, text: "جستجوی هوشمند" },
-} as const;
+import type { TtacDrugPharmaciesOptions } from "../types/drug-pharmacy-option.ts";
+import { TtacDrugPharmaciesResponse } from "../types/drug-pharmacy-response.ts";
 
 /** Seriously? :p */
 const FAKE_CLIENT_IP = "000.000.000.000";
-
-export const TtacDrugPharmaciesOptions = readonlyObject({
-  pageNumber: v.number(),
-  pageSize: v.number(),
-  longitude: v.number(),
-  latitude: v.number(),
-  drugIrc: v.string(),
-  drugIndexId: v.number(),
-  strict: v.boolean(),
-  /** @see {@link SEARCH_MODES} */
-  searchMode: v.number(),
-});
-
-export type TtacDrugPharmaciesOptions = v.InferOutput<
-  typeof TtacDrugPharmaciesOptions
->;
-
-export const TtacPharmacy = readonlyObject({
-  id: v.number(),
-  name: v.string(),
-  ownerName: v.string(),
-  technicalExpertName: dontCare(),
-  telNumber: v.string(),
-  longitude: v.number(),
-  latitude: v.number(),
-  hix: v.string(),
-  universityName: v.string(),
-  pharmacyService1: v.string(),
-  pharmacyServiceType1: v.number(),
-  pharmacyType: dontCare(),
-  pharmacyTypeId: dontCare(),
-  gln: v.string(),
-  city: v.string(),
-  county: v.string(),
-  province: v.string(),
-  address: v.string(),
-});
-
-export type TtacPharmacy = v.InferOutput<typeof TtacPharmacy>;
-
-export const TtacDrug = readonlyObject({
-  irc: v.string(),
-  enBrandName: v.string(),
-  faBrandName: v.string(),
-  drugGenericName: dontCare(),
-  indexFaName: dontCare(),
-  indexEnName: dontCare(),
-  genericCode: v.number(),
-  drugIndexId: v.number(),
-});
-
-export type TtacDrug = v.InferOutput<typeof TtacDrug>;
-
-export const TtacDrugPharmacy = v.intersect([
-  TtacDrug,
-  readonlyObject({
-    secondsFromLastSellDate: v.number(),
-    pharmacy: TtacPharmacy,
-  }),
-]);
-
-export type TtacDrugPharmacy = v.InferOutput<typeof TtacDrugPharmacy>;
 
 export async function fetchTtacDrugPharmacies(
   options: TtacDrugPharmaciesOptions,
@@ -121,12 +50,7 @@ export async function fetchTtacDrugPharmacies(
     throw new ApiError(request, response);
   }
 
-  const json = v.parse(
-    v.object({
-      results: v.array(TtacDrugPharmacy),
-    }),
-    await response.json(),
-  );
+  const json = v.parse(TtacDrugPharmaciesResponse, await response.json());
 
   return json.results;
 }

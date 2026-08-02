@@ -1,8 +1,9 @@
 import { isCancel, select } from "@clack/prompts";
 import { SECONDS_PER_DAY } from "../formatting/duration.ts";
 import { formatFilter, isFilterEmpty } from "../formatting/filter.ts";
-import type { TtacDrugPharmacy } from "../providers/drug-pharmacy.ts";
-import { appendFilters, getFilters, type Filter } from "../stores/filters.ts";
+import { appendFilters, getFilters } from "../stores/filters.ts";
+import type { TtacDrugPharmacy } from "../types/drug-pharmacy.ts";
+import type { Filter } from "../types/filter.ts";
 import { promptToFilterByCity } from "./filter-by-city.ts";
 import { promptToFilterByDays } from "./filter-by-days.ts";
 
