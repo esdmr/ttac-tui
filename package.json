@@ -1,8 +1,33 @@
 {
+  "name": "@esdmr/ttac-tui",
+  "version": "1.0.0",
   "private": true,
+  "description": "TTAC TUI",
+  "homepage": "https://github.com/esdmr/ttac-tui#readme",
+  "bugs": {
+    "url": "https://github.com/esdmr/ttac-tui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esdmr/ttac-tui.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "esdmr",
+    "url": "https://github.com/esdmr"
+  },
   "type": "module",
+  "main": "src/index.ts",
+  "bin": {
+    "ttac-tui": "src/index.ts"
+  },
   "scripts": {
     "start": "node src/index.ts"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.6.0",
+    "clipboardy": "^5.3.2",
+    "node-pager": "^0.3.6"
   },
   "devDependencies": {
     "@types/node": "^24.12.2",
@@ -11,9 +36,5 @@
     "typescript": "^7.0.2",
     "valibot": "^1.4.2"
   },
-  "dependencies": {
-    "@clack/prompts": "^1.6.0",
-    "clipboardy": "^5.3.2",
-    "node-pager": "^0.3.6"
-  }
+  "packageManager": "pnpm@11.18.0"
 }
