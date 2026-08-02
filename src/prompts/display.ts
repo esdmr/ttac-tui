@@ -1,4 +1,4 @@
-import { isCancel, select } from "@clack/prompts";
+import { isCancel, log, select } from "@clack/prompts";
 import clipboard from "clipboardy";
 import pager from "node-pager";
 import { formatDrugPharmacies } from "../formatting/drug-pharmacy.ts";
@@ -8,6 +8,8 @@ export async function promptForDisplay(
   drugPharmacies: readonly TtacDrugPharmacy[],
 ) {
   const text = formatDrugPharmacies(drugPharmacies);
+
+  log.message(text);
 
   while (true) {
     const action = await select({

@@ -1,3 +1,4 @@
+import { rtl } from "../bidi.ts";
 import type { Filter } from "../stores/filters.ts";
 import { list } from "./list.ts";
 
@@ -7,7 +8,7 @@ export function formatFilter(filter: Filter) {
   if (filter.city) parts.push(`شهر ${filter.city}`);
   // oxlint-disable-next-line typescript/strict-boolean-expressions
   if (filter.days) parts.push(`حداکثر ${filter.days} روز پیش`);
-  return list.format(parts) || "همه";
+  return rtl`${list.format(parts) || "همه"}`;
 }
 
 export function isFilterEmpty(filter: Filter) {
