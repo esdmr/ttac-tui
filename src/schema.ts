@@ -9,3 +9,7 @@ export function readonlyArray<
 >(item: T) {
   return v.pipe(v.array(item), v.readonly());
 }
+
+export function dontCare(_schema?: v.GenericSchema<any>) {
+  return v.optional(v.unknown());
+}

@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { ApiError, RateLimitError } from "../error.ts";
-import { readonlyObject } from "../schema.ts";
+import { dontCare, readonlyObject } from "../schema.ts";
 
 /** @see {@link https://mobile.ttac.ir/static/js/model/DrugShortagePharmacyInventoryListSearchMode.js DrugShortagePharmacyInventoryListSearchMode} */
 export const SEARCH_MODES = {
@@ -35,7 +35,7 @@ export const TtacPharmacy = readonlyObject({
   id: v.number(),
   name: v.string(),
   ownerName: v.string(),
-  technicalExpertName: v.optional(v.unknown()),
+  technicalExpertName: dontCare(),
   telNumber: v.string(),
   longitude: v.number(),
   latitude: v.number(),
@@ -43,8 +43,8 @@ export const TtacPharmacy = readonlyObject({
   universityName: v.string(),
   pharmacyService1: v.string(),
   pharmacyServiceType1: v.number(),
-  pharmacyType: v.optional(v.unknown()),
-  pharmacyTypeId: v.optional(v.unknown()),
+  pharmacyType: dontCare(),
+  pharmacyTypeId: dontCare(),
   gln: v.string(),
   city: v.string(),
   county: v.string(),
@@ -58,9 +58,9 @@ export const TtacDrug = readonlyObject({
   irc: v.string(),
   enBrandName: v.string(),
   faBrandName: v.string(),
-  drugGenericName: v.optional(v.unknown()),
-  indexFaName: v.optional(v.unknown()),
-  indexEnName: v.optional(v.unknown()),
+  drugGenericName: dontCare(),
+  indexFaName: dontCare(),
+  indexEnName: dontCare(),
   genericCode: v.number(),
   drugIndexId: v.number(),
 });
